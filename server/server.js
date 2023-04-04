@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const apiRouter = require('./routes/api.js');
 const { connectDB } = require('./models/liftModel');
 const liftLogController = require('./controllers/liftLogController.js');
@@ -11,6 +12,7 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use((req, res, next) => {
   console.log(`Incoming request: ${req.method} ${req.url}`);

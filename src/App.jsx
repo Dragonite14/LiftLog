@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import liftLogo from './assets/liftLogo.png';
 import DropZone from './components/dropTarget';
@@ -6,6 +6,7 @@ import DragItem from './components/dragItems';
 import PopupModal from './components/modal.jsx';
 
 function App() {
+  const [exercises, setExercises] = useState([]);
   const [daysExercises, setDaysExercises] = React.useState({
     Sunday: [],
     Monday: [],
@@ -20,6 +21,16 @@ function App() {
   if (openModal) body.classList.add('dark-background');
   if (!openModal) body.classList.remove('dark-background');
 
+  useEffect(() => {
+    // fetch('/api/exercises')
+    fetch('http://localhost:3000/api/exercises')
+      .then((res) => res.json())
+      .then((data) => {
+        setExercises(data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  console.log('exercises', exercises);
   // function for changing state
   function handleDrop(day, itemId) {
     const exerciseIndex = Number(itemId.slice(9));
@@ -36,21 +47,6 @@ function App() {
       ],
     }));
   }
-
-  const exercises = [
-    '+',
-    'Cable Flys',
-    'French Press',
-    'Turkish diet-up',
-    'Box Jumps',
-    'Donut Eating',
-    'Squats',
-    'Leg Press',
-    'Bicep Curls',
-    'Push ups',
-    'Dead Lifts',
-    'Planks',
-  ];
 
   function dayOfWeek() {
     const days = [
@@ -92,9 +88,9 @@ function App() {
     return exercises.map((el, index) => {
       return (
         <DragItem
-          key={el}
+          key={el.name}
           id={`exercise-${index}`}
-          text={el}
+          text={el.name}
           className="exercise"
         />
       );
