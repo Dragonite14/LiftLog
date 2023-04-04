@@ -6,26 +6,7 @@ const PG_URI = process.env.POSTGRES_URI;
 
 const pool = new Pool({
   connectionString: PG_URI,
-  // user: 'fqcrysgb',
-  // host: 'lallah.db.elephantsql.com',
-  // database: 'fqcrysgb',
-  // password: 'uRqZeJAveI2mtXhQDRlrYUHIDPRfhpTy',
-  // port: 5432,
 });
-
-// const connectDB = async () => {
-//   try {
-//     await pool.connect();
-//     console.log('Successfully connected to database');
-//     console.log(res);
-//     await pool.end();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// console.log('Starting database connection');
-// connectDB();
 
 module.exports = {
   query: (text, params, callback) => {

@@ -1,10 +1,11 @@
+console.log('controller executed');
 const db = require('../models/liftModel');
 
 const liftLogController = {};
 
 liftLogController.getExercises = (req, res, next) => {
-  const queryStr = 'SELECT * FROM exercises;';
   console.log('LANCE IS COOL');
+  const queryStr = 'SELECT * FROM exercises;';
   db.query(queryStr)
     .then((data) => {
       res.locals.exercises = data.rows;
