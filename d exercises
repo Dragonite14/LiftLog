@@ -1,0 +1,8 @@
+                 List of relations
+ Schema |        Name        |   Type   |  Owner   
+--------+--------------------+----------+----------
+ public | exercises          | table    | fqcrysgb
+ public | exercises_id_seq   | sequence | fqcrysgb
+ public | pg_stat_statements | view     | postgres
+(3 rows)
+
