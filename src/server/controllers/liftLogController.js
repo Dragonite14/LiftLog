@@ -1,20 +1,22 @@
-const db = require("../models/liftModel");
+const db = require('../models/liftModel');
 
 const liftLogController = {};
 
 liftLogController.getExercises = (req, res, next) => {
-  const queryStr = 'SELECT * FROM "public"."exercises";';
-
+  const queryStr = 'SELECT * FROM exercises;';
+  console.log('LANCE IS COOL');
   db.query(queryStr)
     .then((data) => {
       res.locals.exercises = data.rows;
+      console.log(data.rows);
+      res.setHeader('Content-Type', 'application/json');
       return next();
     })
     .catch((err) => {
       const newErr = {
-        log: "Error fetching from db, getExercises",
+        log: 'Error fetching from db, getExercises',
         status: 500,
-        message: "Error fetching from db, getExercises",
+        message: 'Error fetching from db, getExercises',
       };
       return next(newErr);
     });
@@ -22,6 +24,13 @@ liftLogController.getExercises = (req, res, next) => {
 
 //! Add more middleware here
 
-//TODO: TRY PSQL COMMAND IN TERMINAL
+//TODO: PSQL COMMAND IN TERMINAL
+/* 
+psql postgres://fqcrysgb:uRqZeJAveI2mtXhQDRlrYUHIDPRfhpTy@lallah.db.elephantsql.com/fqcrysgb
+psql \d exercises
+SELECT * FROM exercises;
+
+\q to quit
+*/
 
 module.exports = liftLogController;
