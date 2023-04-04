@@ -1,42 +1,90 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+    color: white;
+    font-family: 'arial'
 }
 
-.logo {
-  height: 20em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-/* .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-} */
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App{
+    display: flex;
+    gap: 5vw;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.Week{
+    border: 3px solid white;
+    height: 90vh;
+    width: 70vw;
+    margin: 4vh 0 auto 0;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5px;
 }
 
-.card {
-  padding: 2em;
+.today{
+    background-color: #827521;
+    opacity: 0.9;
 }
 
-.read-the-docs {
-  color: #888;
+.day{
+    margin-top: 3vh;
+    border: 1px solid white;
+    margin-bottom: 20px;
+    width: 13vw;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.liftLogo{
+    width: 15vw;
+    height: 25vh;
+    border-radius: 50%;
+    margin: 5vh auto 0 auto;
+}
+
+.menu{
+    border: 3px solid white;
+    margin: 50px auto auto auto;
+    border-radius: 10px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+}
+
+.exercise{
+    width: 90%;
+    border: 1px solid white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px 0;
+}
+
+.day-exercise{
+    border: 1px solid white;
+    padding: 3px;
+    border-radius: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.App{
+    background-color: 'black' !important
+}
+
+#popup-modal{
+    position: absolute;
+    height: 75vh;
+    width: 50vw;
+    border: 1px solid white;
+    z-index: 1;
+    background-color: #2d2e2e;
+    border-radius: 10px;
+    left: 25vw;
+    top: 12.5vh;
+    opacity: 1;
+}
+
+.dark-background{
+    background-color: rgba(0, 0, 0, 0.5)
 }
