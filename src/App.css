@@ -1,42 +1,145 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+    color: white;
+    font-family: 'arial'
 }
 
-.logo {
-  height: 20em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-/* .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-} */
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App{
+    display: flex;
+    gap: 5vw;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.Week{
+    border: 3px solid white;
+    height: 90vh;
+    width: 70vw;
+    margin: 4vh 0 auto 0;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 5px;
 }
 
-.card {
-  padding: 2em;
+.today{
+    /* background-color: #827521; */
+    background-color: rgba(130, 117, 33, 0.5);
 }
 
-.read-the-docs {
-  color: #888;
+.day{
+    margin-top: 3vh;
+    border: 1px solid white;
+    margin-bottom: 20px;
+    width: 13vw;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.liftLogo{
+    width: 15vw;
+    height: 25vh;
+    border-radius: 50%;
+    margin: 5vh auto 0 auto;
+}
+
+
+.menu{
+    border: 3px solid white;
+    margin: 50px auto auto auto;
+    border-radius: 10px;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50vh;
+}
+
+.exercise{
+    width: 90%;
+    border: 1px solid white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.day-exercise{
+    border: 1px solid white;
+    padding: 3px;
+    border-radius: 3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+/* Modal lightens background */
+.light-background{
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 5;
+}
+
+/* Modal stuff */
+#popup-modal{
+    position: absolute;
+    height: 75vh;
+    width: 80vw;
+    border: 1px solid white;
+    background-color: #2d2e2e;
+    border-radius: 10px;
+    left: 10vw;
+    top: 12.5vh;
+    opacity: 1;
+    z-index: 1;
+    overflow: scroll;
+}
+
+.modal-day{
+    margin: 3% auto;
+}
+
+.modal-day{
+    text-align: center;
+}
+
+.close-model{
+    position: absolute;
+    cursor: pointer;
+    background-color: rgba(254, 36, 36, 0.831);
+    opacity: 0.5;
+    color: black;
+    right: 10px;
+    top: 10px;
+}
+
+.modal-exercise{
+    height: 30vh;
+    width: 90%;
+    border: white 1px solid;
+    margin-left: 5%;
+    border-radius: 5px; 
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.display-reps{
+    border: 1px solid white;
+    height: 25vh;
+    width: 70%;
+    border-radius: 10px;
+}
+
+.edit-exercise{
+    cursor: pointer;
+}
+
+/* table stuff */
+table{
+    margin: auto;
+}
+
+td, th{
+    border: 1px solid white;
+    padding: 5px;
+    border-radius: 3px;
 }
