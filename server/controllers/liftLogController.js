@@ -47,7 +47,36 @@ liftLogController.deleteExercise = (req, res, next) => {
   console.log('req.body', req.body);
   console.log('name', exercise_name);
   const queryStr = 'DELETE FROM exercises WHERE name IN ($1);';
+  db.query(queryStr, [exercise_name], (err, results) => {
+    if (err) {
+      console.error('Error executing SQL query delete:', err);
+      return next(err); // pass the error to the error handling middleware
+    }
+    // do something with the results, if necessary
+    res.json({ exercise_name });
+  });
 };
+
+// controller middleware for adding an exercise
+liftLogController.addSet = (req, res, next) => {
+  const { exerciseId, setWeight, setReps } = req.body;
+  const queryStr = `
+  INSERT INTO set ("exerciseID", weight, reps) 
+  VALUES ($1, $2, $3) 
+  RETURNING id;
+  `;
+  db.query(queryStr, [exerciseId, setWeight, setReps], (err, results) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      return next(err); // pass the error to the error handling middleware
+    }
+    // do something with the results, if necessary
+    console.log('results', results);
+    const setId = results.rows[0].id;
+    res.json({ setId });
+  });
+};
+
 //! Add more middleware here
 
 //TODO: PSQL COMMAND IN TERMINAL

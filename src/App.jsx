@@ -40,18 +40,6 @@ function App() {
       .catch((error) => console.log(error));
   };
 
-  // function for deleting an exercise
-  const handleDelete = (event) => {
-    event.preventDefault();
-    fetch('http://localhost:3000/api/exercises', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ exercise_name: this.name }),
-    });
-  };
-
   useEffect(() => {
     fetchExercises();
   }, []);
@@ -85,6 +73,18 @@ function App() {
       })
       .catch((err) => console.error('Error creating exercise:', err));
     setInputValue('');
+  };
+
+  // function for deleting an exercise
+  const handleDelete = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3000/api/exercises', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ exercise_name: this.name }),
+    });
   };
 
   // function for changing state
@@ -158,6 +158,7 @@ function App() {
         >
           <button
             // key={el.name}
+            text="X"
             id={el.name}
             className="deleteBtn"
             onClick={handleDelete}
