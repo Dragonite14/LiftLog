@@ -2,7 +2,7 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 
-const DropZone = ({ id, onDrop, className, children, setOpenModal, openModal }) => {
+const DropZone = ({ id, onDrop, className, children, setOpenModal, openModal, day, setDayClicked }) => {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "item",
     drop: (item) => onDrop(id, item.id),
@@ -14,7 +14,10 @@ const DropZone = ({ id, onDrop, className, children, setOpenModal, openModal }) 
   const dropClassName = isOver ? "drop-target is-over" : "drop-target";
 
   return (
-    <div ref={drop} className={`${dropClassName} ${className}`} onClick={()=>setOpenModal(!openModal)}>
+    <div ref={drop} className={`${dropClassName} ${className}`} onClick={()=>{
+      setOpenModal(true)
+      setDayClicked(day)
+      }}>
       {children}
     </div>
   );

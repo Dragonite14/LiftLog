@@ -16,10 +16,17 @@ function App() {
     Friday: [],
     Saturday: [],
   });
+  // modal state
   const [openModal, setOpenModal] = React.useState(false);
-  const body = document.body;
-  if (openModal) body.classList.add('dark-background');
-  if (!openModal) body.classList.remove('dark-background');
+  // to show on modal what day
+  const [dayClicked, setDayClicked] = React.useState(null);
+
+  // for modal effect of lighter background
+  React.useEffect(() => {
+    const body = document.body;
+    if (openModal) body.classList.add('light-background');
+    if (!openModal) body.classList.remove('light-background');
+  }, [openModal]);
 
   useEffect(() => {
     // fetch('/api/exercises')
@@ -49,6 +56,7 @@ function App() {
   }
 
   function dayOfWeek() {
+    // array of all the days of the week
     const days = [
       'Sunday',
       'Monday',
@@ -59,6 +67,7 @@ function App() {
       'Saturday',
     ];
 
+    // to match today's day to make it "glow"
     const currentDate = new Date();
     const today = days[currentDate.getDay()];
 
@@ -74,6 +83,8 @@ function App() {
           setOpenModal={setOpenModal}
           openModal={openModal}
           className={isToday ? 'day today' : 'day'}
+          day={day}
+          setDayClicked={setDayClicked}
         >
           {day}
           {daysExercises[day]}
@@ -82,8 +93,10 @@ function App() {
     });
   }
 
+  // will render array of JSX week days later
   const daysArray = dayOfWeek();
 
+  // returns all drag targets
   const exercisesMenu = () => {
     return exercises.map((el, index) => {
       return (
@@ -97,12 +110,23 @@ function App() {
     });
   };
 
+  // main return for App
   return (
     <div className="App">
-      {openModal && <PopupModal />}
+      {openModal && (
+        <PopupModal
+          dayClicked={dayClicked}
+          daysExercises={daysExercises}
+          setOpenModal={setOpenModal}
+        />
+      )}
       <div className="Week">{daysArray}</div>
       <div>
-        <img src={liftLogo} className="liftLogo" />
+        <img
+          src={liftLogo}
+          className="liftLogo"
+          style={{ opacity: openModal ? 0.7 : 1 }}
+        />
         <h2>Username goes here</h2>
         <div className="menu">{exercisesMenu()}</div>
       </div>
