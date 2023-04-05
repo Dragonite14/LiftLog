@@ -2,13 +2,15 @@
   "name": "liftlog",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"nodemon ./server/server.js\"",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "concurrently": "^8.0.1",
+    "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "pg": "^8.10.0",
     "react": "^18.2.0",
@@ -20,6 +22,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "prettier": "2.8.7",
     "vite": "^4.2.0"
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css'
-import liftLogo from './assets/liftLogo.png'
-import DropZone from "./components/dropTarget";
-import DragItem from './components/dragItems'
-import PopupModal from './components/modal.jsx'
+import './App.css';
+import liftLogo from './assets/liftLogo.png';
+import DropZone from './components/dropTarget';
+import DragItem from './components/dragItems';
+import PopupModal from './components/modal.jsx';
 
 function App() {
   // for drag and drop state
@@ -36,7 +36,12 @@ function App() {
     // Update the exercises state for the specific day
     setDaysExercises((prev) => ({
       ...prev,
-      [day]: [...prev[day], <p key={exercise + prev[day].length} className="day-exercise">{exercise}</p>],
+      [day]: [
+        ...prev[day],
+        <p key={exercise + prev[day].length} className="day-exercise">
+          {exercise}
+        </p>,
+      ],
     }));
   }
 
@@ -54,25 +59,25 @@ function App() {
     'Push ups',
     'Dead Lifts',
     'Planks',
-  ]
+  ];
 
   // returns array of Dropzones
   function dayOfWeek() {
     // array of all the days of the week
     const days = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
     ];
 
     // to match today's day to make it "glow"
     const currentDate = new Date();
     const today = days[currentDate.getDay()];
-  
+
     return days.map((day) => {
       const isToday = today === day;
       return (
@@ -80,7 +85,7 @@ function App() {
           key={day}
           id={day}
           onDrop={(matchDay, itemId) => {
-            handleDrop(matchDay, itemId)
+            handleDrop(matchDay, itemId);
           }}
           setOpenModal={setOpenModal}
           openModal={openModal}
@@ -122,12 +127,10 @@ function App() {
       <div>
         <img src={liftLogo} className="liftLogo" style={{opacity: openModal ? 0.7 : 1}}/>
         <h2>Username goes here</h2>
-        <div className="menu">
-          {exercisesMenu()}
-        </div>
+        <div className="menu">{exercisesMenu()}</div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
