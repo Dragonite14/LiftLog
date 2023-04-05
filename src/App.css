@@ -150,10 +150,12 @@
     height: 25vh;
     width: 70%;
     border-radius: 10px;
+    overflow: scroll;
 }
 
 .edit-exercise{
     cursor: pointer;
+    background-color: white;
 }
 
 /* table stuff */
@@ -165,4 +167,29 @@ td, th{
     border: 1px solid white;
     padding: 5px;
     border-radius: 3px;
+}
+
+/* form stuff */
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    overflow: scroll;
+}
+
+.form button{
+    color: black;
+    width: 30%;
+    margin-top: 10px;
+}
+
+.inputs{
+    display: flex;
+    gap: 10px;
+    padding-left: 5px;
+}
+
+.inputs input {
+    color: black;
 }
