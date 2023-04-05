@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import liftLogo from './assets/liftLogo.png';
 import DropZone from './components/dropTarget';
@@ -7,6 +7,8 @@ import PopupModal from './components/modal.jsx';
 
 function App() {
   const [exercises, setExercises] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const exercisesRef = useRef([]);
   const [daysExercises, setDaysExercises] = React.useState({
     Sunday: [],
     Monday: [],
@@ -16,6 +18,15 @@ function App() {
     Friday: [],
     Saturday: [],
   });
+  const [repsData, setRepsData] = React.useState({
+    Sunday: [],
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+  })
   // modal state
   const [openModal, setOpenModal] = React.useState(false);
   // to show on modal what day
@@ -28,32 +39,92 @@ function App() {
     if (!openModal) body.classList.remove('light-background');
   }, [openModal]);
 
-  useEffect(() => {
-    // fetch('/api/exercises')
+  const fetchExercises = () => {
     fetch('http://localhost:3000/api/exercises')
       .then((res) => res.json())
       .then((data) => {
         setExercises(data);
+        exercisesRef.current = data;
       })
       .catch((error) => console.log(error));
+  };
+
+  // function for deleting an exercise
+  const handleDelete = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3000/api/exercises', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ exercise_name: this.name }),
+    });
+  };
+
+  useEffect(() => {
+    fetchExercises();
   }, []);
-  console.log('exercises', exercises);
+
+  // submit when you press enter
+  const handleInputChange = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit(event);
+    }
+  };
+
+  // set input value everytime you type
+  const handleInputChangeValue = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  // submit functionality
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3000/api/exercises', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ exercise_name: inputValue }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Call fetchExercises to update the list of exercises
+        fetchExercises();
+      })
+      .catch((err) => console.error('Error creating exercise:', err));
+    setInputValue('');
+  };
+
   // function for changing state
   function handleDrop(day, itemId) {
     const exerciseIndex = Number(itemId.slice(9));
-    const exercise = exercises[exerciseIndex];
+    console.log(exercisesRef.current);
+    const dropExercise = exercisesRef.current[exerciseIndex].name;
+    const repExercise = {}
+    repExercise.name=dropExercise
+    repExercise.sets=[];
 
     // Update the exercises state for the specific day
     setDaysExercises((prev) => ({
       ...prev,
       [day]: [
         ...prev[day],
-        <p key={exercise + prev[day].length} className="day-exercise">
-          {exercise}
+        <p key={dropExercise + prev[day].length} className="day-exercise">
+          {dropExercise}
         </p>,
       ],
     }));
+    setRepsData((prev) => ({
+      ...prev,
+      [day]: [
+        ...prev[day],
+        repExercise
+      ],
+    }));
   }
+
+  console.log(repsData)
 
   function dayOfWeek() {
     // array of all the days of the week
@@ -105,7 +176,16 @@ function App() {
           id={`exercise-${index}`}
           text={el.name}
           className="exercise"
-        />
+        >
+          <button
+            // key={el.name}
+            id={el.name}
+            className="deleteBtn"
+            onClick={handleDelete}
+          >
+            X
+          </button>
+        </DragItem>
       );
     });
   };
@@ -118,17 +198,31 @@ function App() {
           dayClicked={dayClicked}
           daysExercises={daysExercises}
           setOpenModal={setOpenModal}
+          repsData={repsData}
+          setRepsData={setRepsData}
         />
       )}
       <div className="Week">{daysArray}</div>
-      <div>
+      <div className="rightColumn">
         <img
           src={liftLogo}
           className="liftLogo"
           style={{ opacity: openModal ? 0.7 : 1 }}
         />
-        <h2>Username goes here</h2>
-        <div className="menu">{exercisesMenu()}</div>
+        <h2>Buff McGee</h2>
+        <div className="menu">
+          <input
+            type="text"
+            value={inputValue}
+            name="exercise"
+            placeholder="New Exercise"
+            style={{ color: 'black' }}
+            onKeyDown={handleInputChange}
+            onChange={handleInputChangeValue}
+            className="new-exercise"
+          />
+          {exercisesMenu()}
+        </div>
       </div>
     </div>
   );
