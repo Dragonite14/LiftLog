@@ -40,6 +40,18 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  // function for deleting an exercise
+  const handleDelete = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3000/api/exercises', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ exercise_name: this.name }),
+    });
+  };
+
   useEffect(() => {
     fetchExercises();
   }, []);
@@ -143,7 +155,16 @@ function App() {
           id={`exercise-${index}`}
           text={el.name}
           className="exercise"
-        />
+        >
+          <button
+            // key={el.name}
+            id={el.name}
+            className="deleteBtn"
+            onClick={handleDelete}
+          >
+            X
+          </button>
+        </DragItem>
       );
     });
   };
@@ -175,6 +196,7 @@ function App() {
             style={{ color: 'black' }}
             onKeyDown={handleInputChange}
             onChange={handleInputChangeValue}
+            className="new-exercise"
           />
           {exercisesMenu()}
         </div>
