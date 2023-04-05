@@ -18,11 +18,14 @@ app.use((req, res, next) => {
   next();
 });
 
+// route request to /api to correct router
 app.use('/api', apiRouter);
 app.use(express.static(path.resolve(__dirname, '../'), { fallback: false }));
 
+// catch all
 app.use((req, res) => res.status(404).send('WRONG PAGE, DUDE!'));
 
+// global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',

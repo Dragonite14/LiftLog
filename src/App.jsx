@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import liftLogo from './assets/liftLogo.png';
 import DropZone from './components/dropTarget';
@@ -9,6 +8,7 @@ import PopupModal from './components/modal.jsx';
 function App() {
   const [exercises, setExercises] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const exercisesRef = useRef([]);
   const [daysExercises, setDaysExercises] = React.useState({
     Sunday: [],
     Monday: [],
@@ -30,24 +30,12 @@ function App() {
     if (!openModal) body.classList.remove('light-background');
   }, [openModal]);
 
-  // const { data, isLoading, isError, refetch } = useQuery(
-  //   'exercises',
-  //   async () => {
-  //     const response = await fetch('http://localhost:3000/api/exercises');
-  //     const data = await response.json();
-  //     return data;
-  //   }
-  // );
-
-  // useEffect(() => {
-  //   setExercises(data);
-  // }, [data]);
-
   const fetchExercises = () => {
     fetch('http://localhost:3000/api/exercises')
       .then((res) => res.json())
       .then((data) => {
         setExercises(data);
+        exercisesRef.current = data;
       })
       .catch((error) => console.log(error));
   };
@@ -56,11 +44,19 @@ function App() {
     fetchExercises();
   }, []);
 
+  // submit when you press enter
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    console.log(inputValue);
+    if (event.key === 'Enter') {
+      handleSubmit(event);
+    }
   };
 
+  // set input value everytime you type
+  const handleInputChangeValue = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  // submit functionality
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('http://localhost:3000/api/exercises', {
@@ -72,27 +68,26 @@ function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('Exercise Added', data);
         // Call fetchExercises to update the list of exercises
         fetchExercises();
       })
       .catch((err) => console.error('Error creating exercise:', err));
     setInputValue('');
-    event.target.reset();
   };
 
   // function for changing state
   function handleDrop(day, itemId) {
     const exerciseIndex = Number(itemId.slice(9));
-    const exercise = exercises[exerciseIndex];
+    console.log(exercisesRef.current);
+    const dropExercise = exercisesRef.current[exerciseIndex].name;
 
     // Update the exercises state for the specific day
     setDaysExercises((prev) => ({
       ...prev,
       [day]: [
         ...prev[day],
-        <p key={exercise + prev[day].length} className="day-exercise">
-          {exercise}
+        <p key={dropExercise + prev[day].length} className="day-exercise">
+          {dropExercise}
         </p>,
       ],
     }));
@@ -164,7 +159,7 @@ function App() {
         />
       )}
       <div className="Week">{daysArray}</div>
-      <div>
+      <div className="rightColumn">
         <img
           src={liftLogo}
           className="liftLogo"
@@ -172,19 +167,15 @@ function App() {
         />
         <h2>Buff McGee</h2>
         <div className="menu">
-          <form autoComplete="off" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={inputValue}
-              name="exercise"
-              placeholder="New Exercise"
-              style={{ color: 'black' }}
-              onChange={handleInputChange}
-            />
-            <button type="submit" style={{ color: 'black' }}>
-              Add exercise
-            </button>
-          </form>
+          <input
+            type="text"
+            value={inputValue}
+            name="exercise"
+            placeholder="New Exercise"
+            style={{ color: 'black' }}
+            onKeyDown={handleInputChange}
+            onChange={handleInputChangeValue}
+          />
           {exercisesMenu()}
         </div>
       </div>

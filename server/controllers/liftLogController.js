@@ -42,6 +42,8 @@ liftLogController.addExercise = (req, res, next) => {
   });
 };
 
+// controller middleware for deleting an exercise
+liftLogController.deleteExercise = (req, res, next) => {};
 //! Add more middleware here
 
 //TODO: PSQL COMMAND IN TERMINAL
