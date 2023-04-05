@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const apiRouter = require('./routes/api.js');
 const { connectDB } = require('./models/liftModel');
-const liftLogController = require('./controllers/liftLogController.js');
 
 const app = express();
 const PORT = 3000;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation } from 'react-query';
 import './App.css';
 import liftLogo from './assets/liftLogo.png';
 import DropZone from './components/dropTarget';
@@ -7,6 +8,7 @@ import PopupModal from './components/modal.jsx';
 
 function App() {
   const [exercises, setExercises] = useState([]);
+  const [inputValue, setInputValue] = useState('');
   const [daysExercises, setDaysExercises] = React.useState({
     Sunday: [],
     Monday: [],
@@ -28,16 +30,57 @@ function App() {
     if (!openModal) body.classList.remove('light-background');
   }, [openModal]);
 
-  useEffect(() => {
-    // fetch('/api/exercises')
+  // const { data, isLoading, isError, refetch } = useQuery(
+  //   'exercises',
+  //   async () => {
+  //     const response = await fetch('http://localhost:3000/api/exercises');
+  //     const data = await response.json();
+  //     return data;
+  //   }
+  // );
+
+  // useEffect(() => {
+  //   setExercises(data);
+  // }, [data]);
+
+  const fetchExercises = () => {
     fetch('http://localhost:3000/api/exercises')
       .then((res) => res.json())
       .then((data) => {
         setExercises(data);
       })
       .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    fetchExercises();
   }, []);
-  console.log('exercises', exercises);
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+    console.log(inputValue);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:3000/api/exercises', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ exercise_name: inputValue }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Exercise Added', data);
+        // Call fetchExercises to update the list of exercises
+        fetchExercises();
+      })
+      .catch((err) => console.error('Error creating exercise:', err));
+    setInputValue('');
+    event.target.reset();
+  };
+
   // function for changing state
   function handleDrop(day, itemId) {
     const exerciseIndex = Number(itemId.slice(9));
@@ -127,8 +170,23 @@ function App() {
           className="liftLogo"
           style={{ opacity: openModal ? 0.7 : 1 }}
         />
-        <h2>Username goes here</h2>
-        <div className="menu">{exercisesMenu()}</div>
+        <h2>Buff McGee</h2>
+        <div className="menu">
+          <form autoComplete="off" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={inputValue}
+              name="exercise"
+              placeholder="New Exercise"
+              style={{ color: 'black' }}
+              onChange={handleInputChange}
+            />
+            <button type="submit" style={{ color: 'black' }}>
+              Add exercise
+            </button>
+          </form>
+          {exercisesMenu()}
+        </div>
       </div>
     </div>
   );
