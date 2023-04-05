@@ -18,6 +18,15 @@ function App() {
     Friday: [],
     Saturday: [],
   });
+  const [repsData, setRepsData] = React.useState({
+    Sunday: [],
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+  })
   // modal state
   const [openModal, setOpenModal] = React.useState(false);
   // to show on modal what day
@@ -92,6 +101,9 @@ function App() {
     const exerciseIndex = Number(itemId.slice(9));
     console.log(exercisesRef.current);
     const dropExercise = exercisesRef.current[exerciseIndex].name;
+    const repExercise = {}
+    repExercise.name=dropExercise
+    repExercise.sets=[];
 
     // Update the exercises state for the specific day
     setDaysExercises((prev) => ({
@@ -103,7 +115,16 @@ function App() {
         </p>,
       ],
     }));
+    setRepsData((prev) => ({
+      ...prev,
+      [day]: [
+        ...prev[day],
+        repExercise
+      ],
+    }));
   }
+
+  console.log(repsData)
 
   function dayOfWeek() {
     // array of all the days of the week
@@ -177,6 +198,8 @@ function App() {
           dayClicked={dayClicked}
           daysExercises={daysExercises}
           setOpenModal={setOpenModal}
+          repsData={repsData}
+          setRepsData={setRepsData}
         />
       )}
       <div className="Week">{daysArray}</div>
