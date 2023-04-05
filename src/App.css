@@ -35,6 +35,17 @@
     cursor: pointer;
 }
 
+.exerciseContainer {
+    position: relative;
+    min-width: 90%;
+}
+
+.exerciseContainer button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .liftLogo{
     min-width: 15vw;
     height: 25vh;

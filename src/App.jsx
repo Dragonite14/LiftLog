@@ -76,15 +76,17 @@ function App() {
   };
 
   // function for deleting an exercise
-  const handleDelete = (event) => {
+  const handleDelete = (name) => (event) => {
     event.preventDefault();
     fetch('http://localhost:3000/api/exercises', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ exercise_name: this.name }),
-    });
+      body: JSON.stringify({ exercise_name: name }),
+    })
+      .then(() => fetchExercises())
+      .catch((error) => console.log(error));
   };
 
   // function for changing state
@@ -150,22 +152,26 @@ function App() {
   const exercisesMenu = () => {
     return exercises.map((el, index) => {
       return (
-        <DragItem
+        <div
           key={el.name}
-          id={`exercise-${index}`}
-          text={el.name}
-          className="exercise"
+          className="exerciseContainer"
+          style={{ padding: '4px' }}
         >
+          <DragItem
+            id={`exercise-${index}`}
+            text={el.name}
+            className="exercise"
+          />
           <button
             // key={el.name}
             text="X"
             id={el.name}
             className="deleteBtn"
-            onClick={handleDelete}
+            onClick={handleDelete(el.name)}
           >
             X
           </button>
-        </DragItem>
+        </div>
       );
     });
   };
@@ -188,8 +194,9 @@ function App() {
           style={{ opacity: openModal ? 0.7 : 1 }}
         />
         <h2>Buff McGee</h2>
-        <div className="menu">
+        <div className="menu" style={{ padding: '4px' }}>
           <input
+            autoComplete="off"
             type="text"
             value={inputValue}
             name="exercise"

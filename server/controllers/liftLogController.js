@@ -11,7 +11,6 @@ liftLogController.getExercises = (req, res, next) => {
   db.query(queryStr)
     .then((data) => {
       res.locals.exercises = data.rows;
-      console.log(data.rows);
       res.setHeader('Content-Type', 'application/json');
       return next();
     })
@@ -71,7 +70,6 @@ liftLogController.addSet = (req, res, next) => {
       return next(err); // pass the error to the error handling middleware
     }
     // do something with the results, if necessary
-    console.log('results', results);
     const setId = results.rows[0].id;
     res.json({ setId });
   });
