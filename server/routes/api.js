@@ -23,12 +23,12 @@ router.delete('/exercises', liftLogController.deleteExercise, (req, res) => {
   res.status(200).json(res.locals.deleted);
 });
 
-// router for adding a set
-// router.post('/set', liftLogController.addSet, (req, res) => {
-//   // console.log('locals.set: ', res.locals.setData);
-//   // console.log('after addSet controller');
-//   res.status(200).json([res.locals.setData]);
-// });
+// // router for adding a set
+router.post('/set', liftLogController.addSet, (req, res) => {
+  console.log('locals.set: ', res.locals.setData);
+  console.log('after addSet controller');
+  res.status(200).json([res.locals.setId]);
+});
 //! Add more routes here ()
 
 module.exports = router;
