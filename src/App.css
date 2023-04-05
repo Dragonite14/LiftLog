@@ -69,6 +69,12 @@
     cursor: pointer;
 }
 
+.new-exercise{
+    width: 90%;
+    padding: 5px 3px;
+    border-radius: 5px;
+}
+
 .day-exercise{
     border: 1px solid white;
     padding: 3px;

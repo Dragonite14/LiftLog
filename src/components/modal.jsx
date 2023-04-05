@@ -1,14 +1,12 @@
 import React from 'react';
 import Table from './tables/displayTables.jsx';
+import Form from './tables/form.jsx';
 
 export default function popupModal({
   dayClicked,
   daysExercises,
   setOpenModal,
 }) {
-  // for the table of data later
-  const [repsData, setRepsData] = React.useState([]);
-
   // edit mode
   const [editMode, setEditMode] = React.useState(false);
 
@@ -40,9 +38,7 @@ export default function popupModal({
             d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"
           />
         </svg>
-        <div className="display-reps">
-          {editMode ? <h1>form here</h1> : <Table />}
-        </div>
+        <div className="display-reps">{editMode ? <Form /> : <Table />}</div>
       </div>
     );
   });

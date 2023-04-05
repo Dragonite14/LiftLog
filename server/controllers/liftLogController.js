@@ -29,8 +29,6 @@ liftLogController.getExercises = (req, res, next) => {
 liftLogController.addExercise = (req, res, next) => {
   console.log('inside addExercise middleware');
   const { exercise_name } = req.body;
-  console.log('req.body', req.body);
-  console.log('name', exercise_name);
   const queryStr = `INSERT INTO exercises (name) VALUES ($1);`;
   db.query(queryStr, [exercise_name], (err, results) => {
     if (err) {
@@ -43,7 +41,13 @@ liftLogController.addExercise = (req, res, next) => {
 };
 
 // controller middleware for deleting an exercise
-liftLogController.deleteExercise = (req, res, next) => {};
+liftLogController.deleteExercise = (req, res, next) => {
+  console.log('inside delete exercise middelware');
+  const { exercise_name } = req.body;
+  console.log('req.body', req.body);
+  console.log('name', exercise_name);
+  const queryStr = 'DELETE FROM exercises WHERE name IN ($1);';
+};
 //! Add more middleware here
 
 //TODO: PSQL COMMAND IN TERMINAL
